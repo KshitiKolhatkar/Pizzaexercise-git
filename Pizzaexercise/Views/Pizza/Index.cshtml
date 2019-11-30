@@ -1,0 +1,50 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<head>
+
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <script src="~/Scripts/jquery.dataTables.min.js"></script>
+    <link href="~/Scripts/jquery.dataTables.min.css" rel="stylesheet" />
+
+</head>
+<body>
+    <br />
+    <div class="container">
+        <table id="tblpizzatoppings">
+            <thead>
+                <tr>
+                    <td>Rank</td>
+                    <td>Toppings</td>
+                    <td>Orders(number of times)</td>
+                </tr>
+            </thead>
+            <tbody></tbody>
+            <tfoot></tfoot>
+        </table>
+    </div>
+</body>
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")
+<script>
+    $.noConflict();
+    $('#tblpizzatoppings').DataTable({
+        "pageLength": 25,
+        "ajax": {
+            "url": '/Pizza/GetToppings',
+            "dataType": "json",
+            "type": "POST",
+            dataSrc: function (json) {
+                return $.parseJSON(json);
+            }
+        },
+        "aoColumns": [
+            { "mData": "Rank", "aTargets": [0], "sType": "integer" },
+            { "mData": "Toppings", "aTargets": [1], "sType": "string" },
+            { "mData": "Count", "aTargets": [2], "sType": "integer" },
+        ],
+        "order": [[0, 'asc']]
+    });
+
+//# sourceURL=Index.js
+</script>
